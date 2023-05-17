@@ -65,7 +65,7 @@ passport.use(
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRETS,
       callbackURL:
-        "https://authentication-page.up.railway.app//auth/google/secrets",
+        "https://authentication-page.up.railway.app/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
 
