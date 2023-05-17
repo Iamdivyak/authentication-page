@@ -10,7 +10,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook");
 const findOrCreate = require("mongoose-findorcreate");
 const app = express();
-const port = 3000;
+
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,7 +65,7 @@ passport.use(
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRETS,
       callbackURL:
-        "https://authentication-page.up.railway.app//auth/google/secrets",
+        "https://authentication-page.up.railway.app/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
 
@@ -83,7 +83,7 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL:
-        "https://authentication-page.up.railway.app//auth/facebook/secrets",
+        "https://authentication-page.up.railway.app/auth/facebook/secrets",
     },
     function (accessToken, refreshToken, profile, cb) {
       User.findOrCreate({ facebookId: profile.id }, function (err, user) {
@@ -226,6 +226,11 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || port, () =>
-  console.log(`App started listening on port ${port}!`)
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+app.listen(port, () =>
+  console.log(`Server has started on port ${port} successfully !`)
 );
