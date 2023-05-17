@@ -1,4 +1,4 @@
-require("dotenv").config();
+const dotenv = require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -18,9 +18,10 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: process.env.CLIENT_SECRETS,
     resave: false,
     saveUninitialized: false,
+    clientID: process.env.CLIENT_ID,
   })
 );
 
