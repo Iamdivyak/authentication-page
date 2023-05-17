@@ -29,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.set("strictQuery", false);
-mongoose.connect("mongodb://0.0.0.0:27017/userDB", { useNewUrlParser: true });
+mongoose.connect("mongodb://127.0.0.1/userDB", { useNewUrlParser: true });
 
 const secretSchema = new mongoose.Schema({
   content: String,
