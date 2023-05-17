@@ -224,4 +224,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.listen(port, () => console.log(`App started listening on port ${port}!`));
+app.listen(process.env.PORT || port, () =>
+  console.log(`App started listening on port ${port}!`)
+);
