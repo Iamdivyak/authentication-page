@@ -1,4 +1,4 @@
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -7,10 +7,9 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
+const FacebookStrategy = require("passport-facebook");
 const findOrCreate = require("mongoose-findorcreate");
 const app = express();
-
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,10 +17,9 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: process.env.CLIENT_SECRETS,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    clientID: process.env.CLIENT_ID,
   })
 );
 
@@ -29,7 +27,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+});
 
 const secretSchema = new mongoose.Schema({
   content: String,
@@ -64,8 +64,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRETS,
-      callbackURL:
-        "https://authentication-page.up.railway.app/auth/google/secrets",
+      callbackURL: "https://authentication-page.up.railway.app/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
 
@@ -82,8 +81,7 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL:
-        "https://authentication-page.up.railway.app/auth/facebook/secrets",
+      callbackURL: "https://authentication-page.up.railway.app/auth/facebook/secrets",
     },
     function (accessToken, refreshToken, profile, cb) {
       User.findOrCreate({ facebookId: profile.id }, function (err, user) {
@@ -231,6 +229,4 @@ if (port == null || port == "") {
   port = 3000;
 }
 
-app.listen(port, () =>
-  console.log(`Server has started on port ${port} successfully !`)
-);
+app.listen(port, () => console.log(`App Started listening on port ${port}!`));
