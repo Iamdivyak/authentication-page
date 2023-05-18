@@ -63,7 +63,7 @@ passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRETS,
+      clientSecret: process.env.SECRETS,
       callbackURL: "https://authentication-page.up.railway.app/auth/google/secrets",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
