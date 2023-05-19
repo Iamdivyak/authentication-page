@@ -36,10 +36,21 @@ const secretSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  googleId: String,
-  facebookId: String,
+    username: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  facebookId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   secret: [secretSchema],
 });
 
